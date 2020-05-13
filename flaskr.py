@@ -77,7 +77,7 @@ def show_entries():
     # 获取连接对象执行查询操作之后的光标对象，该对象的 fetchall 方法中存储了查询结果
     cursor = g.conn.execute('SELECT title, text FROM entries ORDER BY id DESC')
     # 查询结果是一个列表，列表里是元组，将元组转换成字典
-    entries = [dict(title=row[0], text=row[1]] for row in cursor.fetchall()]
+    entries = [dict(title=row[0], text=row[1]) for row in cursor.fetchall()]
     return render_template('show_entries.html', entries=entries)
 
 @app.route('/add', methods=['POST'])
@@ -111,7 +111,7 @@ def login():
             return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
 
-@app.route('logout')
+@app.route('/logout')
 def logout():
     '''用户登录
     '''
