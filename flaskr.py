@@ -93,6 +93,31 @@ def add_entry():
     flash('New entry has beensuccessfully posted')
     return redirect(url_for('show_entries'))
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    '''用户登录
+    '''
 
+    error = None
+    if request.method == 'POST':
+        # 如果用户名与配置项不符
+        if request.form.get('username') != app.config.get('USERNAME'):
+            error = 'Invalid username'
+        elif request.form.get('password') != app.config.get('PASSWORD'):
+            error = 'Invalid password'
+        else:
+            session['login'] = True
+            flash('You\'re loginned successfully!')
+            return redirect(url_for('show_entries'))
+    return render_template('login.html', error=error)
+
+@app.route('logout')
+def logout():
+    '''用户登录
+    '''
+
+    session.pop('login', None)
+    flash('You have logouted successfully')
+    return redirect(url_for('show_entries'))
 if __name__ == '__main__':
     app.run()
