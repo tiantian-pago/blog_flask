@@ -87,9 +87,8 @@ def add_entry():
 
     if not session.get('login'):
         abort(401)
-    g.conn.execute('INSERT INTO entries (title, text) VALUE(?, ?)',
-                    [request.form.get('title'), request.form.get('text')])
-    g.commit()
+    g.conn.execute('INSERT INTO entries (title, text) VALUES(?, ?)', (request.form.get('title'), request.form.get('text')))
+    g.conn.commit()
     flash('New entry has beensuccessfully posted')
     return redirect(url_for('show_entries'))
 
